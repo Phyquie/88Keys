@@ -5,6 +5,22 @@ import Link from "next/link";
 import { MapPin, Phone, Mail, Send, Check } from "lucide-react";
 import PianoKeys from "./PianoKeys";
 
+// Mirrors the Navbar: instruments grouped, everything else top level.
+const quickLinks = [
+  { name: "Home", href: "/" },
+  { name: "Dance", href: "/dance" },
+  { name: "Teachers", href: "/teachers" },
+  { name: "Gallery", href: "/gallery" },
+  { name: "Contact", href: "/contact" },
+];
+
+const instrumentLinks = [
+  { name: "Piano", href: "/piano" },
+  { name: "Guitar", href: "/guitar" },
+  { name: "Bass", href: "/bass" },
+  { name: "Drums", href: "/drums" },
+];
+
 export default function Footer() {
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
@@ -50,15 +66,7 @@ export default function Footer() {
           <div>
             <h4 className="text-[#F7F2E7] font-mono font-medium text-xs uppercase tracking-widest mb-5">Quick Links</h4>
             <ul className="space-y-3 text-sm">
-              {[
-                { name: "Home", href: "/" },
-                { name: "Piano Classes", href: "/piano" },
-                { name: "Teachers", href: "/#teachers" },
-                { name: "Gallery", href: "/#gallery" },
-                { name: "Certificates", href: "/#certificates" },
-                { name: "Events", href: "/#events" },
-                { name: "Contact", href: "/#contact" },
-              ].map((link) => (
+              {quickLinks.map((link) => (
                 <li key={link.name}>
                   <Link href={link.href} className="hover:text-[#F7F2E7] transition-colors">
                     {link.name}
@@ -68,7 +76,19 @@ export default function Footer() {
             </ul>
           </div>
 
-
+          {/* Col 3: Instruments */}
+          <div>
+            <h4 className="text-[#F7F2E7] font-mono font-medium text-xs uppercase tracking-widest mb-5">Instruments</h4>
+            <ul className="space-y-3 text-sm">
+              {instrumentLinks.map((link) => (
+                <li key={link.name}>
+                  <Link href={link.href} className="hover:text-[#F7F2E7] transition-colors">
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
           {/* Col 4: Contact & Newsletter */}
           <div>

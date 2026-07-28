@@ -196,3 +196,9 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Hide the floating reCAPTCHA v3 badge. Google permits this only when the
+   required attribution text is shown instead — see BookingModal. */
+.grecaptcha-badge {
+  visibility: hidden;
+}

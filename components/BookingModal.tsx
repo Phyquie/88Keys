@@ -1,10 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
+import Script from "next/script";
 import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
-import { X, CheckCircle2, Sparkles } from "lucide-react";
+import { X, CheckCircle2, Sparkles, Loader2, AlertCircle } from "lucide-react";
 import { PianoIcon } from "./Icons";
+import {
+  getRecaptchaToken,
+  RECAPTCHA_SCRIPT_SRC,
+  RECAPTCHA_SITE_KEY,
+} from "@/lib/recaptcha-client";
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -18,6 +24,8 @@ export default function BookingModal({
   defaultCourse = "Piano Mastery",
 }: BookingModalProps) {
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [trialForm, setTrialForm] = useState({
     name: "",
     email: "",
@@ -27,21 +35,59 @@ export default function BookingModal({
     mode: "In-Studio",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setFormSubmitted(true);
-    confetti({
-      particleCount: 120,
-      spread: 70,
-      origin: { y: 0.6 },
-      colors: ["#17140F", "#B8863B", "#F1E4C8", "#F7F2E7"],
-    });
+    if (submitting) return;
+
+    setSubmitting(true);
+    setSubmitError(null);
+
+    let captchaToken: string | null = null;
+    try {
+      captchaToken = await getRecaptchaToken();
+    } catch {
+      setSubmitError(
+        "The security check couldn't load. Disable any ad blocker for this page and try again."
+      );
+      setSubmitting(false);
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/booking", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...trialForm, captchaToken }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        setSubmitError(data.error ?? "Something went wrong. Please try again.");
+        return;
+      }
+
+      setFormSubmitted(true);
+      confetti({
+        particleCount: 120,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ["#17140F", "#B8863B", "#F1E4C8", "#F7F2E7"],
+      });
+    } catch {
+      setSubmitError(
+        "We couldn't reach the studio. Check your connection and try again."
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleClose = () => {
     onClose();
     setTimeout(() => {
       setFormSubmitted(false);
+      setSubmitError(null);
       setTrialForm({
         name: "",
         email: "",
@@ -57,6 +103,11 @@ export default function BookingModal({
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Loaded only while the modal is open so the rest of the site isn't
+              paying for Google's script on every page view. */}
+          {RECAPTCHA_SITE_KEY && (
+            <Script src={RECAPTCHA_SCRIPT_SRC} strategy="afterInteractive" />
+          )}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -193,12 +244,49 @@ export default function BookingModal({
                     </div>
                   </div>
 
+                  {submitError && (
+                    <div
+                      role="alert"
+                      className="flex items-start gap-2 rounded-sm border border-[#B8863B]/40 bg-[#F1E4C8] px-3 py-2.5 text-xs text-[#17140F]"
+                    >
+                      <AlertCircle className="w-4 h-4 shrink-0 mt-px text-[#B8863B]" />
+                      <span>{submitError}</span>
+                    </div>
+                  )}
+
                   <button
                     type="submit"
-                    className="w-full py-4 bg-[#17140F] text-[#F7F2E7] font-semibold text-sm rounded-sm hover:bg-[#B8863B] hover:text-[#17140F] transition-all mt-2 cursor-pointer"
+                    disabled={submitting}
+                    className="w-full py-4 bg-[#17140F] text-[#F7F2E7] font-semibold text-sm rounded-sm hover:bg-[#B8863B] hover:text-[#17140F] transition-all mt-2 cursor-pointer flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:bg-[#17140F] disabled:hover:text-[#F7F2E7]"
                   >
-                    Confirm Free Trial Booking
+                    {submitting && <Loader2 className="w-4 h-4 animate-spin" />}
+                    {submitting ? "Sending..." : "Confirm Free Trial Booking"}
                   </button>
+
+                  {/* Required by Google when the reCAPTCHA badge is hidden. */}
+                  {RECAPTCHA_SITE_KEY && (
+                    <p className="text-[10px] leading-relaxed text-[#4A4335] text-center">
+                      This site is protected by reCAPTCHA and the Google{" "}
+                      <a
+                        href="https://policies.google.com/privacy"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline hover:text-[#17140F]"
+                      >
+                        Privacy Policy
+                      </a>{" "}
+                      and{" "}
+                      <a
+                        href="https://policies.google.com/terms"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline hover:text-[#17140F]"
+                      >
+                        Terms of Service
+                      </a>{" "}
+                      apply.
+                    </p>
+                  )}
                 </form>
               </div>
             )}

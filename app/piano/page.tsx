@@ -244,10 +244,10 @@ const TEACHERS = [
 
 const CLASS_DETAILS = [
   { title: "Class Duration", value: "60 Minutes", desc: "Structured 45 min core instruction + 15 min review/jam" },
-  { title: "Available Days", value: "Monday to Sunday", desc: "7 days a week flexible batch availability" },
+   { title: "Available Days", value: "Monday to Friday", desc: "5 days a week flexible batch availability" },
   { title: "Flexible Timings", value: "9 AM – 8:30 PM", desc: "Morning, afternoon, and evening slots" },
   { title: "Learning Mode", value: "Offline / Online", desc: "Acoustic studio uprights or live HD camera streaming" },
-  { title: "Batch Size", value: "Max 6 Students", desc: "Micro-batches for individual attention (1-on-1 available)" },
+  { title: "Batch Size", value: "Max 4 Students", desc: "Micro-batches for individual attention (1-on-1 available)" },
 ];
 
 const GALLERY = [

@@ -233,7 +233,7 @@ const TEACHERS = [
 
 const CLASS_DETAILS = [
   { title: "Class Duration", value: "60 Minutes", desc: "15 min warm-up + 35 min choreography + 10 min cool-down" },
-  { title: "Available Days", value: "Monday to Sunday", desc: "7 days a week flexible batch availability" },
+  { title: "Available Days", value: "Monday to Friday", desc: "5 days a week flexible batch availability" },
   { title: "Flexible Timings", value: "9 AM – 8:30 PM", desc: "Morning, afternoon, and evening slots" },
   { title: "Studio Facility", value: "Mirrored & Sprung Floor", desc: "Acoustically treated studio with shock-absorbing dance floors" },
   { title: "Batch Size", value: "Max 10 Students", desc: "Generous space per dancer for fluid movement" },

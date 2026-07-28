@@ -235,10 +235,10 @@ const TEACHERS = [
 
 const CLASS_DETAILS = [
   { title: "Class Duration", value: "60 Minutes", desc: "45 min core instruction + 15 min rhythm section jam" },
-  { title: "Available Days", value: "Monday to Sunday", desc: "7 days a week flexible batch availability" },
+  { title: "Available Days", value: "Monday to Friday", desc: "5 days a week flexible batch availability" },
   { title: "Flexible Timings", value: "9 AM – 8:30 PM", desc: "Morning, afternoon, and evening slots" },
   { title: "Learning Mode", value: "Offline / Online / Hybrid", desc: "Studio Fender & Ibanez basses provided" },
-  { title: "Batch Size", value: "Max 6 Students", desc: "Individual attention to finger muting & timing" },
+  { title: "Batch Size", value: "Max 4 Students", desc: "Individual attention to finger muting & timing" },
 ];
 
 const GALLERY = [

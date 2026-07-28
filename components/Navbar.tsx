@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -10,10 +10,53 @@ interface NavbarProps {
   onOpenTrialModal?: () => void;
 }
 
+const instrumentLinks = [
+  { name: "Piano", href: "/piano" },
+  { name: "Guitar", href: "/guitar" },
+  { name: "Bass", href: "/bass" },
+  { name: "Drums", href: "/drums" },
+];
+
+const leadingLinks = [{ name: "Home", href: "/" }];
+
+const trailingLinks = [
+  { name: "Dance", href: "/dance" },
+  { name: "Teachers", href: "/teachers" },
+  { name: "Gallery", href: "/gallery" },
+  { name: "Contact", href: "/contact" },
+];
+
+function DesktopLink({
+  link,
+  isActive,
+}: {
+  link: { name: string; href: string };
+  isActive: boolean;
+}) {
+  return (
+    <Link
+      href={link.href}
+      className={`hover:text-[#17140F] transition-colors relative py-1 group font-medium ${isActive ? "text-[#17140F] font-bold" : "text-[#4A4335]"
+        }`}
+    >
+      {link.name}
+      <span
+        className={`absolute bottom-0 left-0 h-0.5 bg-[#B8863B] rounded-full transition-all duration-300 ${isActive ? "w-full" : "w-0 group-hover:w-full"
+          }`}
+      />
+    </Link>
+  );
+}
+
 export default function Navbar({ onOpenTrialModal }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [instrumentsOpen, setInstrumentsOpen] = useState(false);
   const pathname = usePathname();
+  const instrumentsRef = useRef<HTMLDivElement>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const instrumentActive = instrumentLinks.some((link) => pathname === link.href);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,18 +70,44 @@ export default function Navbar({ onOpenTrialModal }: NavbarProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "Piano", href: "/piano" },
-    { name: "Guitar", href: "/guitar" },
-    { name: "Bass", href: "/bass" },
-    { name: "Drums", href: "/drums" },
-    { name: "Dance", href: "/dance" },
-    { name: "Teachers", href: "/teachers" },
-    { name: "Gallery", href: "/gallery" },
-    { name: "Contact", href: "/contact" },
+  // Close the dropdown on outside click or Escape
+  useEffect(() => {
+    if (!instrumentsOpen) return;
 
-  ];
+    const handlePointerDown = (e: MouseEvent) => {
+      if (!instrumentsRef.current?.contains(e.target as Node)) {
+        setInstrumentsOpen(false);
+      }
+    };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setInstrumentsOpen(false);
+    };
+
+    document.addEventListener("mousedown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [instrumentsOpen]);
+
+  // Clear any pending hover-close timer on unmount
+  useEffect(() => {
+    return () => {
+      if (closeTimer.current) clearTimeout(closeTimer.current);
+    };
+  }, []);
+
+  const openInstruments = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setInstrumentsOpen(true);
+  };
+
+  // Small delay so the pointer can travel from the trigger to the panel
+  const scheduleCloseInstruments = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setInstrumentsOpen(false), 140);
+  };
 
   return (
     <header
@@ -47,7 +116,11 @@ export default function Navbar({ onOpenTrialModal }: NavbarProps) {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 group">
+        <Link
+          href="/"
+          onClick={() => setMobileMenuOpen(false)}
+          className="flex items-center gap-3 group"
+        >
           <div className="relative w-10 h-10 rounded-md bg-[#17140F] flex items-center justify-center text-[#F7F2E7] overflow-hidden transition-transform duration-300 group-hover:scale-105">
             <span className="absolute right-1 top-1 bottom-1 w-0.75 bg-[#F7F2E7]" />
             <span className="absolute right-3 top-1 bottom-1 w-0.75 bg-[#F7F2E7]" />
@@ -63,23 +136,68 @@ export default function Navbar({ onOpenTrialModal }: NavbarProps) {
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-6 text-sm font-medium text-[#4A4335]">
-          {navLinks.map((link) => {
-            const isActive = pathname === link.href;
-            return (
-              <Link
-                key={link.name}
-                href={link.href}
-                className={`hover:text-[#17140F] transition-colors relative py-1 group font-medium ${isActive ? "text-[#17140F] font-bold" : "text-[#4A4335]"
+          {leadingLinks.map((link) => (
+            <DesktopLink key={link.name} link={link} isActive={pathname === link.href} />
+          ))}
+
+          {/* Instruments dropdown */}
+          <div
+            ref={instrumentsRef}
+            className="relative"
+            onMouseEnter={openInstruments}
+            onMouseLeave={scheduleCloseInstruments}
+          >
+            <button
+              type="button"
+              onClick={() => setInstrumentsOpen((open) => !open)}
+              aria-expanded={instrumentsOpen}
+              aria-haspopup="true"
+              className={`hover:text-[#17140F] transition-colors relative py-1 group font-medium flex items-center gap-1 cursor-pointer ${instrumentActive || instrumentsOpen ? "text-[#17140F]" : "text-[#4A4335]"
+                } ${instrumentActive ? "font-bold" : ""}`}
+            >
+              Instruments
+              <ChevronDown
+                className={`w-4 h-4 transition-transform duration-300 ${instrumentsOpen ? "rotate-180" : ""
                   }`}
-              >
-                {link.name}
-                <span
-                  className={`absolute bottom-0 left-0 h-0.5 bg-[#B8863B] rounded-full transition-all duration-300 ${isActive ? "w-full" : "w-0 group-hover:w-full"
-                    }`}
-                />
-              </Link>
-            );
-          })}
+              />
+              <span
+                className={`absolute bottom-0 left-0 h-0.5 bg-[#B8863B] rounded-full transition-all duration-300 ${instrumentActive ? "w-full" : "w-0 group-hover:w-full"
+                  }`}
+              />
+            </button>
+
+            <AnimatePresence>
+              {instrumentsOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.18 }}
+                  className="absolute left-0 top-full pt-3 w-48"
+                >
+                  <div className="flex flex-col rounded-md border border-[#17140F]/10 bg-[#F7F2E7]/95 backdrop-blur-xl p-1.5 shadow-xl">
+                    {instrumentLinks.map((link) => (
+                      <Link
+                        key={link.name}
+                        href={link.href}
+                        onClick={() => setInstrumentsOpen(false)}
+                        className={`px-3 py-2 rounded-sm transition-colors ${pathname === link.href
+                          ? "bg-[#F1E4C8] text-[#17140F] font-bold"
+                          : "hover:bg-[#F1E4C8] hover:text-[#17140F]"
+                          }`}
+                      >
+                        {link.name}
+                      </Link>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {trailingLinks.map((link) => (
+            <DesktopLink key={link.name} link={link} isActive={pathname === link.href} />
+          ))}
         </nav>
 
         {/* Right CTA */}
@@ -112,7 +230,7 @@ export default function Navbar({ onOpenTrialModal }: NavbarProps) {
             className="lg:hidden bg-[#F7F2E7]/95 backdrop-blur-xl border-b border-[#17140F]/10 px-4 pt-3 pb-6 shadow-xl"
           >
             <div className="flex flex-col gap-2 font-medium text-[#4A4335] text-sm">
-              {navLinks.map((link) => (
+              {[...leadingLinks, ...instrumentLinks, ...trailingLinks].map((link) => (
                 <Link
                   key={link.name}
                   href={link.href}

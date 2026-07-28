@@ -225,7 +225,7 @@ const TEACHERS = [
 
 const CLASS_DETAILS = [
   { title: "Class Duration", value: "60 Minutes", desc: "45 min core drumkit instruction + 15 min backing track jam" },
-  { title: "Available Days", value: "Monday to Sunday", desc: "7 days a week flexible batch availability" },
+ { title: "Available Days", value: "Monday to Friday", desc: "5 days a week flexible batch availability" },
   { title: "Flexible Timings", value: "9 AM – 8:30 PM", desc: "Morning, afternoon, and evening slots" },
   { title: "Learning Mode", value: "Offline / Online / Hybrid", desc: "Roland V-Drums & Yamaha Acoustic Kits provided" },
   { title: "Batch Size", value: "Max 4 Students", desc: "Micro-batches for individual kit time" },
