@@ -1,5 +1,6 @@
 import { sendBookingEmail, type BookingDetails } from "@/lib/mailer";
-import { verifyRecaptcha } from "@/lib/recaptcha-server";
+import { verifyCaptcha } from "@/lib/captcha";
+import { saveBooking } from "@/lib/db";
 
 // nodemailer opens a TCP socket, so this handler must run on Node.js.
 export const runtime = "nodejs";
@@ -15,7 +16,8 @@ function parseBooking(payload: unknown): BookingDetails | string {
   const body = payload as Record<string, unknown>;
   const booking = {} as BookingDetails;
 
-  for (const field of FIELDS) {
+  const requiredFields = ["name", "email", "phone", "course"] as const;
+  for (const field of requiredFields) {
     const value = body[field];
     if (typeof value !== "string" || value.trim() === "") {
       return `Missing required field: ${field}.`;
@@ -23,8 +25,23 @@ function parseBooking(payload: unknown): BookingDetails | string {
     if (value.length > MAX_LENGTH) {
       return `Field too long: ${field}.`;
     }
-    // Strip newlines so user input can't inject extra mail headers.
     booking[field] = value.replace(/[\r\n]+/g, " ").trim();
+  }
+
+  // Optional/Defaulted fields
+  const preferredDayVal = body.preferredDay;
+  booking.preferredDay = typeof preferredDayVal === "string" && preferredDayVal.trim() !== ""
+    ? preferredDayVal.replace(/[\r\n]+/g, " ").trim()
+    : "Any Day";
+
+  const modeVal = body.mode;
+  booking.mode = typeof modeVal === "string" && modeVal.trim() !== ""
+    ? modeVal.replace(/[\r\n]+/g, " ").trim()
+    : "Contact Form Inquiry";
+
+  const messageVal = body.message;
+  if (typeof messageVal === "string" && messageVal.trim() !== "") {
+    booking.message = messageVal.substring(0, 1000).trim();
   }
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(booking.email)) {
@@ -47,22 +64,27 @@ export async function POST(request: Request) {
     return Response.json({ error: booking }, { status: 400 });
   }
 
-  const captchaToken = (payload as Record<string, unknown>).captchaToken;
-  const verification = await verifyRecaptcha(
-    typeof captchaToken === "string" ? captchaToken : undefined,
-    request.headers.get("x-forwarded-for")?.split(",")[0].trim()
+  const { captchaAnswer, captchaId } = payload as Record<string, unknown>;
+  const isCaptchaValid = verifyCaptcha(
+    typeof captchaId === "string" ? captchaId : undefined,
+    typeof captchaAnswer === "string" ? captchaAnswer : undefined
   );
 
-  if (!verification.ok) {
-    // The reason names our config or Google's error codes — log it, don't ship it.
-    console.warn("Booking rejected by reCAPTCHA:", verification.reason);
+  if (!isCaptchaValid) {
+    console.warn("Booking rejected: invalid or expired captcha.");
     return Response.json(
       {
-        error:
-          "We couldn't verify that you're human. Please refresh the page and try again.",
+        error: "Security check failed. Please enter the correct code shown in the image.",
       },
-      { status: 403 }
+      { status: 400 }
     );
+  }
+
+  // Save the booking to MongoDB database for the admin panel
+  try {
+    await saveBooking(booking);
+  } catch (dbError) {
+    console.error("Failed to save booking to database:", dbError);
   }
 
   try {

@@ -7,9 +7,9 @@ import nodemailer from "nodemailer";
 function readSmtpConfig() {
   const host = process.env.SMTP_HOST;
   const user = process.env.SMTP_USER;
-  // App passwords are shown in groups of four; strip the spaces so a pasted
-  // value works as-is.
-  const pass = process.env.SMTP_PASS?.replace(/\s+/g, "");
+  // App passwords are shown in groups of four; strip the spaces and any surrounding quotes
+  // so a pasted value works as-is.
+  const pass = process.env.SMTP_PASS?.replace(/\s+/g, "").replace(/['"]/g, "");
 
   const missing = [
     ["SMTP_HOST", host],
@@ -30,7 +30,6 @@ function readSmtpConfig() {
     throw new Error(`Invalid SMTP_PORT: ${process.env.SMTP_PORT}`);
   }
 
-  // Port 465 uses implicit TLS; 587 upgrades via STARTTLS. SMTP_SECURE overrides.
   const secure = process.env.SMTP_SECURE
     ? process.env.SMTP_SECURE === "true"
     : port === 465;
@@ -68,6 +67,7 @@ export interface BookingDetails {
   course: string;
   preferredDay: string;
   mode: string;
+  message?: string;
 }
 
 function escapeHtml(value: string) {
@@ -88,23 +88,27 @@ function buildEmail(booking: BookingDetails) {
     ["Preferred Day", booking.preferredDay],
   ];
 
+  if (booking.message) {
+    rows.push(["Message", booking.message]);
+  }
+
   const text = rows.map(([label, value]) => `${label}: ${value}`).join("\n");
 
   const html = `
     <div style="font-family:ui-sans-serif,system-ui,sans-serif;background:#F7F2E7;padding:24px;color:#17140F">
-      <h2 style="margin:0 0 4px;font-size:18px">New Free Trial Booking</h2>
+      <h2 style="margin:0 0 4px;font-size:18px">New Consultation / Enquiry Request</h2>
       <p style="margin:0 0 16px;font-size:13px;color:#4A4335">
         Submitted from the 88 Keys Studio website.
       </p>
       <table cellpadding="8" cellspacing="0" style="border-collapse:collapse;font-size:14px;background:#fff">
         ${rows
-          .map(
-            ([label, value]) => `<tr>
+      .map(
+        ([label, value]) => `<tr>
           <td style="border:1px solid #17140F1a;font-weight:600;white-space:nowrap">${escapeHtml(label)}</td>
           <td style="border:1px solid #17140F1a">${escapeHtml(value)}</td>
         </tr>`
-          )
-          .join("")}
+      )
+      .join("")}
       </table>
     </div>
   `;
@@ -112,7 +116,7 @@ function buildEmail(booking: BookingDetails) {
   return { text, html };
 }
 
-/** Emails a trial booking to the studio inbox. Throws if SMTP is misconfigured. */
+/** Emails a consult/enquiry booking to the studio inbox. Throws if SMTP is misconfigured. */
 export async function sendBookingEmail(booking: BookingDetails) {
   const config = readSmtpConfig();
   const { text, html } = buildEmail(booking);
@@ -122,7 +126,7 @@ export async function sendBookingEmail(booking: BookingDetails) {
     to: config.to,
     // Replying in the inbox goes straight back to the prospective student.
     replyTo: `${booking.name} <${booking.email}>`,
-    subject: `New Trial Booking — ${booking.course} (${booking.name})`,
+    subject: `New Consult/Enquiry — ${booking.course} (${booking.name})`,
     text,
     html,
   });

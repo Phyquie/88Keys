@@ -25,7 +25,7 @@ const plexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   title: "88 Keys Music Studio | Premium Music & Dance Academy",
   description:
-    "Master Piano, Guitar, Bass, Drums, Keyboard, Vocals, and Dance with world-class certified instructors at 88 Keys Music Studio. Book a free trial today!",
+    "Master Piano, Guitar, Bass, Drums, Keyboard, Vocals, and Dance with world-class certified instructors at 88 Keys Music Studio. Book a consultation or enquire today!",
   keywords: [
     "Music Studio",
     "Piano Lessons",

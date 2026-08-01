@@ -184,7 +184,7 @@ const WHY_CHOOSE_US = [
 ];
 
 const LEARNING_JOURNEY = [
-  { step: "01", title: "Book a Trial", desc: "Reserve your complimentary 30-minute 1-on-1 evaluation session online or in studio." },
+  { step: "01", title: "Consult / Enquiry", desc: "Reserve a 1-on-1 consultation session or send an enquiry online or in studio." },
   { step: "02", title: "Meet Your Teacher", desc: "Get matched with a certified mentor whose teaching style aligns with your goals." },
   { step: "03", title: "Choose Your Course", desc: "Select a custom tailored schedule, curriculum intensity, and learning format." },
   { step: "04", title: "Practice Weekly", desc: "Enjoy weekly interactive studio sessions backed by guided video & sheet music materials." },
@@ -360,7 +360,7 @@ export default function Home() {
                   onClick={() => setIsTrialModalOpen(true)}
                   className="w-full sm:w-auto px-8 py-4 bg-[#17140F] text-[#F7F2E7] font-semibold rounded-sm hover:bg-[#B8863B] hover:text-[#17140F] transition-all duration-300 flex items-center justify-center gap-2 hover:-translate-y-0.5 cursor-pointer"
                 >
-                  <span>Book Free Trial</span>
+                  <span>Book Consult / Enquiry</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
                 <a
@@ -585,7 +585,7 @@ export default function Home() {
                       onClick={() => setIsTrialModalOpen(true)}
                       className="inline-flex items-center gap-2 text-sm font-bold text-[#17140F] group/btn w-fit cursor-pointer"
                     >
-                      <span className="border-b-2 border-[#B8863B] pb-0.5">Book Trial</span>
+                      <span className="border-b-2 border-[#B8863B] pb-0.5">Consult / Enquiry</span>
                       <ChevronRight className="w-4 h-4 text-[#B8863B] group-hover/btn:translate-x-1 transition-transform" />
                     </button>
                   )}
@@ -670,7 +670,7 @@ export default function Home() {
                 onClick={() => setIsTrialModalOpen(true)}
                 className="px-8 py-3.5 bg-[#17140F] text-[#F7F2E7] font-semibold text-sm rounded-sm hover:bg-[#B8863B] hover:text-[#17140F] transition-all inline-flex items-center gap-2 cursor-pointer"
               >
-                <span>Experience It Yourself — Book Trial</span>
+                <span>Experience It Yourself — Consult / Enquiry</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </motion.div>
@@ -847,14 +847,14 @@ export default function Home() {
               </h2>
 
               <p className="text-[#B3A98F] text-base sm:text-lg mb-9 leading-relaxed">
-                Book your FREE trial class and experience professional music education.
+                Book your consultation or submit an enquiry and experience professional music education.
               </p>
 
               <button
                 onClick={() => setIsTrialModalOpen(true)}
                 className="px-10 py-4.5 bg-[#B8863B] text-[#17140F] font-bold text-sm uppercase tracking-wide hover:bg-[#F7F2E7] transition-all duration-300 inline-flex items-center gap-3 cursor-pointer"
               >
-                <span>Book Free Trial</span>
+                <span>Book Consult / Enquiry</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>

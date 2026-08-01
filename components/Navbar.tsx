@@ -22,6 +22,7 @@ const leadingLinks = [{ name: "Home", href: "/" }];
 const trailingLinks = [
   { name: "Dance", href: "/dance" },
   { name: "Teachers", href: "/teachers" },
+  { name: "Blogs", href: "/blogs" },
   { name: "Gallery", href: "/gallery" },
   { name: "Contact", href: "/contact" },
 ];
@@ -206,7 +207,7 @@ export default function Navbar({ onOpenTrialModal }: NavbarProps) {
             onClick={onOpenTrialModal}
             className="relative inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold text-[#F7F2E7] transition-all duration-300 bg-[#17140F] rounded-sm hover:bg-[#B8863B] hover:text-[#17140F] shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
           >
-            <span>Book Free Trial</span>
+            <span>Book Consult / Enquiry</span>
           </button>
         </div>
 
@@ -251,7 +252,7 @@ export default function Navbar({ onOpenTrialModal }: NavbarProps) {
                   }}
                   className="w-full py-3 text-center text-[#F7F2E7] bg-[#17140F] rounded-md font-semibold shadow-md flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <span>Book Free Trial</span>
+                  <span>Book Consult / Enquiry</span>
                 </button>
               </div>
             </div>

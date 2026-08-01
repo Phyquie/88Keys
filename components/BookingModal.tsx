@@ -1,16 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
-import Script from "next/script";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
-import { X, CheckCircle2, Sparkles, Loader2, AlertCircle } from "lucide-react";
+import { X, CheckCircle2, Sparkles, Loader2, AlertCircle, RotateCw } from "lucide-react";
 import { PianoIcon } from "./Icons";
-import {
-  getRecaptchaToken,
-  RECAPTCHA_SCRIPT_SRC,
-  RECAPTCHA_SITE_KEY,
-} from "@/lib/recaptcha-client";
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -26,6 +20,10 @@ export default function BookingModal({
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [captchaId, setCaptchaId] = useState<string | null>(null);
+  const [captchaSvg, setCaptchaSvg] = useState<string | null>(null);
+  const [captchaInput, setCaptchaInput] = useState("");
+  const [captchaLoading, setCaptchaLoading] = useState(false);
   const [trialForm, setTrialForm] = useState({
     name: "",
     email: "",
@@ -35,35 +33,56 @@ export default function BookingModal({
     mode: "In-Studio",
   });
 
-  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+  const fetchCaptcha = async () => {
+    setCaptchaLoading(true);
+    try {
+      const res = await fetch("/api/captcha");
+      if (res.ok) {
+        const data = await res.json();
+        setCaptchaId(data.captchaId);
+        setCaptchaSvg(data.svg);
+      } else {
+        console.error("Failed to load captcha");
+      }
+    } catch (err) {
+      console.error("Error fetching captcha:", err);
+    } finally {
+      setCaptchaLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      fetchCaptcha();
+      setCaptchaInput("");
+    }
+  }, [isOpen]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (submitting) return;
 
-    setSubmitting(true);
-    setSubmitError(null);
-
-    let captchaToken: string | null = null;
-    try {
-      captchaToken = await getRecaptchaToken();
-    } catch {
-      setSubmitError(
-        "The security check couldn't load. Disable any ad blocker for this page and try again."
-      );
-      setSubmitting(false);
+    if (!captchaInput.trim()) {
+      setSubmitError("Please complete the security check.");
       return;
     }
+
+    setSubmitting(true);
+    setSubmitError(null);
 
     try {
       const res = await fetch("/api/booking", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...trialForm, captchaToken }),
+        body: JSON.stringify({ ...trialForm, captchaAnswer: captchaInput, captchaId }),
       });
 
       const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
         setSubmitError(data.error ?? "Something went wrong. Please try again.");
+        fetchCaptcha();
+        setCaptchaInput("");
         return;
       }
 
@@ -88,6 +107,9 @@ export default function BookingModal({
     setTimeout(() => {
       setFormSubmitted(false);
       setSubmitError(null);
+      setCaptchaInput("");
+      setCaptchaId(null);
+      setCaptchaSvg(null);
       setTrialForm({
         name: "",
         email: "",
@@ -103,11 +125,7 @@ export default function BookingModal({
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          {/* Loaded only while the modal is open so the rest of the site isn't
-              paying for Google's script on every page view. */}
-          {RECAPTCHA_SITE_KEY && (
-            <Script src={RECAPTCHA_SCRIPT_SRC} strategy="afterInteractive" />
-          )}
+
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -135,12 +153,12 @@ export default function BookingModal({
                   <CheckCircle2 className="w-10 h-10" />
                 </div>
                 <h3 className="font-display text-2xl font-semibold text-[#17140F] mb-2 flex items-center justify-center gap-2">
-                  <span>Trial Booking Confirmed!</span>
+                  <span>Request Confirmed!</span>
                   <Sparkles className="w-6 h-6 text-[#B8863B]" />
                 </h3>
                 <p className="text-[#4A4335] text-sm mb-6 leading-relaxed">
-                  Thank you, <span className="font-bold text-[#17140F]">{trialForm.name}</span>! We have reserved your free trial class for{" "}
-                  <span className="font-bold text-[#B8863B]">{trialForm.course}</span> ({trialForm.mode}). Our team will reach out to confirm your slot time.
+                  Thank you, <span className="font-bold text-[#17140F]">{trialForm.name}</span>! We have received your consultation / enquiry request for{" "}
+                  <span className="font-bold text-[#B8863B]">{trialForm.course}</span> ({trialForm.mode}). Our team will reach out to connect with you shortly.
                 </p>
                 <button
                   onClick={handleClose}
@@ -156,14 +174,14 @@ export default function BookingModal({
                     <PianoIcon className="w-5 h-5" />
                   </div>
                   <span className="text-xs font-mono font-medium uppercase tracking-widest text-[#B8863B]">
-                    Free 30-Min Evaluation
+                    1-on-1 Consultation
                   </span>
                 </div>
                 <h3 className="font-display text-2xl font-semibold text-[#17140F] mb-1">
-                  Book Your Free Trial Class
+                  Book Your Consult / Enquiry
                 </h3>
                 <p className="text-xs text-[#4A4335] mb-6">
-                  No credit card required. Experience 1-on-1 personalized mentorship.
+                  No commitment required. Experience 1-on-1 personalized mentorship.
                 </p>
 
                 <form onSubmit={handleSubmit} className="space-y-4 text-left">
@@ -244,6 +262,41 @@ export default function BookingModal({
                     </div>
                   </div>
 
+                  <div className="space-y-1.5">
+                    <label className="block text-xs font-bold text-[#17140F]">
+                      Security Check *
+                    </label>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <div className="flex items-center gap-2">
+                        {captchaSvg ? (
+                          <div 
+                            className="h-12 w-[150px] border border-[#17140F]/15 rounded-sm overflow-hidden flex items-center bg-[#F1E4C8] select-none"
+                            dangerouslySetInnerHTML={{ __html: captchaSvg }}
+                          />
+                        ) : (
+                          <div className="h-12 w-[150px] bg-[#F1E4C8]/50 animate-pulse rounded-sm border border-[#17140F]/10" />
+                        )}
+                        <button
+                          type="button"
+                          onClick={fetchCaptcha}
+                          disabled={captchaLoading}
+                          className="p-3 text-[#4A4335] hover:text-[#17140F] rounded-sm hover:bg-[#EEE5D3] transition-colors cursor-pointer flex items-center justify-center shrink-0 border border-[#17140F]/10"
+                          title="Refresh security code"
+                        >
+                          <RotateCw className={`w-4 h-4 ${captchaLoading ? "animate-spin" : ""}`} />
+                        </button>
+                      </div>
+                      <input
+                        type="text"
+                        required
+                        placeholder="Type the code above"
+                        value={captchaInput}
+                        onChange={(e) => setCaptchaInput(e.target.value)}
+                        className="flex-1 px-4 py-3 rounded-sm border border-[#17140F]/15 bg-[#F7F2E7] text-sm focus:outline-none focus:border-[#B8863B] focus:ring-2 focus:ring-[#B8863B]/20 placeholder-[#4A4335]/50 text-[#17140F]"
+                      />
+                    </div>
+                  </div>
+
                   {submitError && (
                     <div
                       role="alert"
@@ -260,33 +313,8 @@ export default function BookingModal({
                     className="w-full py-4 bg-[#17140F] text-[#F7F2E7] font-semibold text-sm rounded-sm hover:bg-[#B8863B] hover:text-[#17140F] transition-all mt-2 cursor-pointer flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:bg-[#17140F] disabled:hover:text-[#F7F2E7]"
                   >
                     {submitting && <Loader2 className="w-4 h-4 animate-spin" />}
-                    {submitting ? "Sending..." : "Confirm Free Trial Booking"}
+                    {submitting ? "Sending..." : "Confirm Consult / Enquiry"}
                   </button>
-
-                  {/* Required by Google when the reCAPTCHA badge is hidden. */}
-                  {RECAPTCHA_SITE_KEY && (
-                    <p className="text-[10px] leading-relaxed text-[#4A4335] text-center">
-                      This site is protected by reCAPTCHA and the Google{" "}
-                      <a
-                        href="https://policies.google.com/privacy"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="underline hover:text-[#17140F]"
-                      >
-                        Privacy Policy
-                      </a>{" "}
-                      and{" "}
-                      <a
-                        href="https://policies.google.com/terms"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="underline hover:text-[#17140F]"
-                      >
-                        Terms of Service
-                      </a>{" "}
-                      apply.
-                    </p>
-                  )}
                 </form>
               </div>
             )}
