@@ -40,7 +40,9 @@ function readSmtpConfig() {
     secure,
     user: user!,
     pass: pass!,
-    to: process.env.MAIL_TO || user!,
+    to: process.env.MAIL_TO
+      ? process.env.MAIL_TO.split(",").map((email) => email.trim()).filter(Boolean).join(", ")
+      : user!,
     from: process.env.MAIL_FROM || `88 Keys Studio <${user}>`,
   };
 }
@@ -120,6 +122,12 @@ function buildEmail(booking: BookingDetails) {
 export async function sendBookingEmail(booking: BookingDetails) {
   const config = readSmtpConfig();
   const { text, html } = buildEmail(booking);
+
+  console.log(`[Mailer] Sending booking email:
+    - From: ${config.from}
+    - To: ${config.to} (configured via MAIL_TO / SMTP_USER)
+    - Reply-To: ${booking.name} <${booking.email}>
+    - Subject: New Consult/Enquiry — ${booking.course} (${booking.name})`);
 
   await getTransporter(config).sendMail({
     from: config.from,
