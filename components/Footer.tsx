@@ -139,6 +139,7 @@ export default function Footer() {
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-[#6B6350]">
           <p>© {new Date().getFullYear()} 88 Keys Music Studio. All rights reserved.</p>
           <div className="flex items-center gap-6 mt-4 sm:mt-0">
+            <a href="/admin" className="hover:text-[#B3A98F]">Admin Login</a>
             <a href="#" className="hover:text-[#B3A98F]">Privacy Policy</a>
             <a href="#" className="hover:text-[#B3A98F]">Terms of Service</a>
             <a href="#" className="hover:text-[#B3A98F]">Cookie Preferences</a>
