@@ -49,7 +49,7 @@ function generateSalt() {
 async function run() {
   const args = process.argv.slice(2);
   const username = (args[0] || "admin").toLowerCase();
-  const password = args[1] || process.env.ADMIN_PASSWORD || "admin123";
+  const password = args[1] || process.env.ADMIN_PASSWORD || "Fuck You";
 
   console.log(`Connecting to MongoDB...`);
   try {
