@@ -36,7 +36,7 @@ const FOUNDER = {
     "Founded 88 Keys Music Studio in 2024",
     "Conducted over 100+ International Symphony Recitals", ,
   ],
-  image: "/Founder/DanielMassey.jpeg",
+  image: "/founder/DanielMassey.jpeg",
 };
 
 

@@ -48,7 +48,7 @@ function generateSalt() {
 
 async function run() {
   const args = process.argv.slice(2);
-  const username = (args[0] || "admin").toLowerCase();
+  const username = (args[0] || process.env.ADMIN_USERNAME || "admin").toLowerCase();
   const password = args[1] || process.env.ADMIN_PASSWORD || "admin123";
 
   console.log(`Connecting to MongoDB...`);
@@ -56,31 +56,23 @@ async function run() {
     await mongoose.connect(MONGODB_URI);
     console.log("Connected to MongoDB successfully.");
 
-    // Check if user already exists
-    const existingUser = await UserModel.findOne({ username });
-    if (existingUser) {
-      console.log(`User '${username}' already exists. Updating password...`);
-      const salt = generateSalt();
-      const passwordHash = hashPassword(password, salt);
-      
-      existingUser.salt = salt;
-      existingUser.passwordHash = passwordHash;
-      await existingUser.save();
-      
-      console.log(`User '${username}' updated successfully!`);
-    } else {
-      console.log(`Creating user '${username}'...`);
-      const salt = generateSalt();
-      const passwordHash = hashPassword(password, salt);
+    // Delete all existing admins / users
+    console.log("Deleting all existing admin users...");
+    const deleteResult = await UserModel.deleteMany({});
+    console.log(`Deleted ${deleteResult.deletedCount} existing user(s).`);
 
-      await UserModel.create({
-        username,
-        passwordHash,
-        salt,
-        role: "admin"
-      });
-      console.log(`User '${username}' created successfully!`);
-    }
+    // Create the new admin user
+    console.log(`Creating admin user '${username}'...`);
+    const salt = generateSalt();
+    const passwordHash = hashPassword(password, salt);
+
+    await UserModel.create({
+      username,
+      passwordHash,
+      salt,
+      role: "admin"
+    });
+    console.log(`Admin '${username}' created successfully!`);
   } catch (error) {
     console.error("Error during seeding:", error);
   } finally {
