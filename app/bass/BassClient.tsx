@@ -234,8 +234,8 @@ const TEACHERS = [
 ];
 
 const CLASS_DETAILS = [
-  { title: "Class Duration", value: "60 Minutes", desc: "45 min core instruction + 15 min rhythm section jam" },
-  { title: "Available Days", value: "Monday to Friday", desc: "5 days a week flexible batch availability" },
+  { title: "Class Duration", value: "45 Minutes", desc: "45 min core instruction + rhythm section jam" },
+  { title: "Available Days", value: "Monday to Saturday", desc: "5 days a week flexible batch availability" },
   { title: "Flexible Timings", value: "9 AM – 8:30 PM", desc: "Morning, afternoon, and evening slots" },
   { title: "Learning Mode", value: "Offline / Online / Hybrid", desc: "Studio Fender & Ibanez basses provided" },
   { title: "Batch Size", value: "Max 4 Students", desc: "Individual attention to finger muting & timing" },
@@ -600,9 +600,8 @@ export default function BassClient() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className={`relative flex flex-col justify-between p-8 ${
-                  level.popular ? "bg-[#17140F] text-[#F7F2E7]" : "bg-[#F7F2E7] text-[#17140F]"
-                }`}
+                className={`relative flex flex-col justify-between p-8 ${level.popular ? "bg-[#17140F] text-[#F7F2E7]" : "bg-[#F7F2E7] text-[#17140F]"
+                  }`}
               >
                 {level.popular && (
                   <div className="absolute top-0 right-0 bg-[#B8863B] text-[#17140F] text-[10px] font-bold px-3 py-1 uppercase tracking-wider">
@@ -639,11 +638,10 @@ export default function BassClient() {
                   </p>
                   <button
                     onClick={() => setIsTrialModalOpen(true)}
-                    className={`w-full py-3.5 rounded-sm font-semibold text-sm transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${
-                      level.popular
-                        ? "bg-[#B8863B] text-[#17140F] hover:bg-[#F7F2E7]"
-                        : "bg-[#17140F] text-[#F7F2E7] hover:bg-[#B8863B] hover:text-[#17140F]"
-                    }`}
+                    className={`w-full py-3.5 rounded-sm font-semibold text-sm transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${level.popular
+                      ? "bg-[#B8863B] text-[#17140F] hover:bg-[#F7F2E7]"
+                      : "bg-[#17140F] text-[#F7F2E7] hover:bg-[#B8863B] hover:text-[#17140F]"
+                      }`}
                   >
                     <span>Learn More & Enroll</span>
                     <ChevronRight className="w-4 h-4" />
@@ -735,9 +733,8 @@ export default function BassClient() {
                       <span className="text-base font-display font-semibold">{mod.title}</span>
                     </div>
                     <ChevronDown
-                      className={`w-5 h-5 text-[#B8863B] transition-transform duration-300 ${
-                        isOpen ? "rotate-180" : ""
-                      }`}
+                      className={`w-5 h-5 text-[#B8863B] transition-transform duration-300 ${isOpen ? "rotate-180" : ""
+                        }`}
                     />
                   </button>
 
@@ -796,9 +793,8 @@ export default function BassClient() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: idx * 0.06 }}
-                  className={`relative p-5 min-h-44 flex flex-col justify-between border-r border-b lg:border-b-0 border-[#17140F]/15 last:border-r-0 transition-colors duration-300 ${
-                    isKey ? "bg-[#17140F] text-[#F7F2E7]" : "bg-[#F7F2E7] text-[#17140F]"
-                  } hover:bg-[#B8863B] hover:text-[#17140F]`}
+                  className={`relative p-5 min-h-44 flex flex-col justify-between border-r border-b lg:border-b-0 border-[#17140F]/15 last:border-r-0 transition-colors duration-300 ${isKey ? "bg-[#17140F] text-[#F7F2E7]" : "bg-[#F7F2E7] text-[#17140F]"
+                    } hover:bg-[#B8863B] hover:text-[#17140F]`}
                 >
                   <span className="font-mono text-[10px] uppercase tracking-widest opacity-60">
                     Step {step.step}
@@ -1080,9 +1076,8 @@ export default function BassClient() {
               <button
                 key={idx}
                 onClick={() => setActiveTestimonialIdx(idx)}
-                className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                  activeTestimonialIdx === idx ? "w-8 bg-[#17140F]" : "w-1.5 bg-[#17140F]/20 hover:bg-[#17140F]/40"
-                }`}
+                className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${activeTestimonialIdx === idx ? "w-8 bg-[#17140F]" : "w-1.5 bg-[#17140F]/20 hover:bg-[#17140F]/40"
+                  }`}
               />
             ))}
           </div>
@@ -1116,9 +1111,8 @@ export default function BassClient() {
                   >
                     <span className="text-base">{faq.q}</span>
                     <ChevronDown
-                      className={`w-5 h-5 text-[#B8863B] transition-transform duration-300 ${
-                        isOpen ? "rotate-180" : ""
-                      }`}
+                      className={`w-5 h-5 text-[#B8863B] transition-transform duration-300 ${isOpen ? "rotate-180" : ""
+                        }`}
                     />
                   </button>
 
