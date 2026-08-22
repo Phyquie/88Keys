@@ -3,7 +3,7 @@ import { getBlogs } from "@/lib/db";
 import { getBlogSlug } from "@/lib/blog-utils";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://88keysmusic.com";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.88keys.in";
 
   // List of all static routes
   const staticPaths = [
