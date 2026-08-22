@@ -250,18 +250,22 @@ const GALLERY = [
 
 const TESTIMONIALS = [
   {
-    name: "Daniel Reed",
+    name: "Devansh Joshi",
     duration: "Bass Student • 6 Months",
     stars: 5,
     review: "Learning bass at 88 Keys transformed my understanding of music! Locking rhythm with the drummer in studio jams is the coolest feeling ever.",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop",
   },
   {
     name: "Pooja Hegde",
     duration: "Bass Student • 1 Year",
     stars: 5,
-    review: "Marcus taught me slap technique from scratch. The lessons are structured, fun, and the studio equipment is top tier!",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop",
+    review: "The instructors taught me slap technique from scratch. The lessons are structured, fun, and the studio equipment is top tier!",
+  },
+  {
+    name: "Karan Verma",
+    duration: "Bass Student • 1.5 Years",
+    stars: 5,
+    review: "The focus on groove, pocket timing, and walking basslines made me stage-ready in no time. Best music studio for bassists!",
   },
 ];
 
@@ -1054,18 +1058,11 @@ export default function BassClient() {
                   <Star key={i} className="w-4 h-4 fill-[#B8863B] text-[#B8863B]" />
                 ))}
               </div>
-              <div className="flex items-center justify-center gap-3">
-                <img
-                  src={TESTIMONIALS[activeTestimonialIdx].image}
-                  alt={TESTIMONIALS[activeTestimonialIdx].name}
-                  className="w-11 h-11 rounded-full object-cover border-2 border-[#17140F]/10 grayscale"
-                />
-                <div className="text-left">
-                  <p className="font-bold text-sm text-[#17140F]">{TESTIMONIALS[activeTestimonialIdx].name}</p>
-                  <p className="text-[10px] font-mono text-[#4A4335] uppercase tracking-wide">
-                    {TESTIMONIALS[activeTestimonialIdx].duration}
-                  </p>
-                </div>
+              <div className="text-center">
+                <p className="font-bold text-base sm:text-lg text-[#17140F]">{TESTIMONIALS[activeTestimonialIdx].name}</p>
+                <p className="text-xs font-mono text-[#4A4335] uppercase tracking-wider mt-1">
+                  {TESTIMONIALS[activeTestimonialIdx].duration}
+                </p>
               </div>
             </motion.div>
           </AnimatePresence>

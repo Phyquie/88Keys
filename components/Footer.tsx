@@ -38,9 +38,7 @@ export default function Footer() {
           {/* Col 1: Brand Info */}
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-md bg-[#B8863B] flex items-center justify-center text-[#17140F] font-display font-semibold text-xl">
-                88
-              </div>
+              <img src="/88Keys.png" className="h-12 rounded-full"></img>
               <span className="font-display font-semibold text-xl text-[#F7F2E7] tracking-tight">
                 88 Keys <span className="text-[#B8863B] text-[10px] font-mono font-medium uppercase tracking-wider px-2 py-0.5 rounded-sm bg-[#B8863B]/10 border border-[#B8863B]/25">Studio</span>
               </span>
@@ -96,19 +94,19 @@ export default function Footer() {
             <ul className="space-y-3 text-sm mb-6">
               <li className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-[#B8863B] shrink-0 mt-1" />
-                <span>88 Melody Boulevard, Suite 400, Music District</span>
+                <span>Guniyal gaon, Purkul road, Dheradun</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-[#B8863B] shrink-0" />
-                <span>+1 (800) 88-KEYS-STUDIO</span>
+                <span>+91 9639721993</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-[#B8863B] shrink-0" />
-                <span>hello@88keysstudio.com</span>
+                <span>88keysacademy88@gmail.com</span>
               </li>
             </ul>
 
-            {/* Newsletter Form */}
+            {/* Newsletter Form
             <form onSubmit={handleNewsletterSubmit} className="space-y-2">
               <p className="text-xs font-bold text-[#B3A98F]">Subscribe for Workshop Updates</p>
               {newsletterSubmitted ? (
@@ -131,7 +129,7 @@ export default function Footer() {
                   </button>
                 </div>
               )}
-            </form>
+            </form> */}
           </div>
         </div>
 
@@ -139,10 +137,10 @@ export default function Footer() {
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-[#6B6350]">
           <p>© {new Date().getFullYear()} 88 Keys Music Studio. All rights reserved.</p>
           <div className="flex items-center gap-6 mt-4 sm:mt-0">
-            <a href="/admin" className="hover:text-[#B3A98F]">Admin Login</a>
-            <a href="#" className="hover:text-[#B3A98F]">Privacy Policy</a>
-            <a href="#" className="hover:text-[#B3A98F]">Terms of Service</a>
-            <a href="#" className="hover:text-[#B3A98F]">Cookie Preferences</a>
+            <Link href="/admin" className="hover:text-[#B3A98F] transition-colors">Admin Login</Link>
+            <Link href="/privacy" className="hover:text-[#B3A98F] transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-[#B3A98F] transition-colors">Terms of Service</Link>
+            <Link href="/cookies" className="hover:text-[#B3A98F] transition-colors">Cookie Policy</Link>
           </div>
         </div>
       </div>

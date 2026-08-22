@@ -261,25 +261,22 @@ const GALLERY = [
 
 const TESTIMONIALS = [
   {
-    name: "Samantha Wright",
+    name: "Radhika Sen",
     duration: "Piano Student • 1 Year",
     stars: 5,
-    review: "I started as an absolute beginner at age 32. Elena's patience and structured method made learning piano intuitive. Playing my favorite Chopin nocturne after 1 year was a dream come true!",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop",
+    review: "I started as an absolute beginner at age 32. The structured method and faculty's patience made learning piano intuitive. Playing my favorite Chopin nocturne after 1 year was a dream come true!",
   },
   {
     name: "Vikram Malhotra",
     duration: "Parent of Arjun (8 Yrs)",
     stars: 5,
     review: "88 Keys Studio has been incredible for my son. He cleared his Trinity Grade 2 Piano exam with Distinction! The teachers inspire confidence without overwhelming young kids.",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop",
   },
   {
-    name: "Meera Sen",
+    name: "Meera Deshmukh",
     duration: "Piano Student • 6 Months",
     stars: 5,
     review: "The studio facility is top notch with acoustic upright and grand pianos. The small batch size means you get genuine 1-on-1 guidance every session.",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop",
   },
 ];
 
@@ -1073,18 +1070,11 @@ export default function PianoClient() {
                   <Star key={i} className="w-4 h-4 fill-[#B8863B] text-[#B8863B]" />
                 ))}
               </div>
-              <div className="flex items-center justify-center gap-3">
-                <img
-                  src={TESTIMONIALS[activeTestimonialIdx].image}
-                  alt={TESTIMONIALS[activeTestimonialIdx].name}
-                  className="w-11 h-11 rounded-full object-cover border-2 border-[#17140F]/10 grayscale"
-                />
-                <div className="text-left">
-                  <p className="font-bold text-sm text-[#17140F]">{TESTIMONIALS[activeTestimonialIdx].name}</p>
-                  <p className="text-[10px] font-mono text-[#4A4335] uppercase tracking-wide">
-                    {TESTIMONIALS[activeTestimonialIdx].duration}
-                  </p>
-                </div>
+              <div className="text-center">
+                <p className="font-bold text-base sm:text-lg text-[#17140F]">{TESTIMONIALS[activeTestimonialIdx].name}</p>
+                <p className="text-xs font-mono text-[#4A4335] uppercase tracking-wider mt-1">
+                  {TESTIMONIALS[activeTestimonialIdx].duration}
+                </p>
               </div>
             </motion.div>
           </AnimatePresence>

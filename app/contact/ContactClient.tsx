@@ -31,22 +31,22 @@ const CONTACT_DETAILS = [
   {
     icon: MapPin,
     title: "Studio Address",
-    lines: ["88 Melody Boulevard, Suite 400", "Music District"],
+    lines: ["Guniyal gaon, Purkul road, Dheradun"],
   },
   {
     icon: Phone,
     title: "Call Us",
-    lines: ["+1 (800) 88-KEYS-STUDIO"],
+    lines: ["+91 9639721993"],
   },
   {
     icon: Mail,
     title: "Email Us",
-    lines: ["hello@88keysstudio.com"],
+    lines: ["88keysacademy88@gmail.com"],
   },
   {
     icon: Clock,
     title: "Studio Hours",
-    lines: ["Monday – Sunday", "9:00 AM – 8:30 PM"],
+    lines: ["Monday – Saturday", "11:00 AM – 6:00 PM"],
   },
 ];
 

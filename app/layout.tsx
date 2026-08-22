@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Fraunces, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
+import ScrollToTop from "@/components/ScrollToTop";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
@@ -48,6 +49,7 @@ export default function RootLayout({
       className={`${plusJakartaSans.variable} ${fraunces.variable} ${plexMono.variable} scroll-smooth antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[#F7F2E7] text-[#17140F] font-sans selection:bg-[#17140F] selection:text-[#F7F2E7]">
+        <ScrollToTop />
         {children}
       </body>
     </html>

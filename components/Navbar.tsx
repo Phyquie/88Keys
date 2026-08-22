@@ -122,11 +122,7 @@ export default function Navbar({ onOpenTrialModal }: NavbarProps) {
           onClick={() => setMobileMenuOpen(false)}
           className="flex items-center gap-3 group"
         >
-          <div className="relative w-10 h-10 rounded-md bg-[#17140F] flex items-center justify-center text-[#F7F2E7] overflow-hidden transition-transform duration-300 group-hover:scale-105">
-            <span className="absolute right-1 top-1 bottom-1 w-0.75 bg-[#F7F2E7]" />
-            <span className="absolute right-3 top-1 bottom-1 w-0.75 bg-[#F7F2E7]" />
-            <span className="font-display font-semibold text-base tracking-tight">88</span>
-          </div>
+          <img src="/88Keys.png" className="h-12 rounded-full" ></img>
           <div>
             <span className="font-display font-semibold text-lg text-[#17140F] tracking-tight flex items-center gap-1.5">
               88 Keys <span className="text-[#B8863B] text-[10px] font-mono font-medium uppercase tracking-wider px-2 py-0.5 rounded-sm bg-[#F1E4C8] border border-[#B8863B]/20">Studio</span>

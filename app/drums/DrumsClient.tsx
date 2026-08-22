@@ -243,15 +243,19 @@ const TESTIMONIALS = [
     name: "Aravind Swamy",
     duration: "Drum Student • 1 Year",
     stars: 5,
-    review: "Playing drums at 88 Keys is the highlight of my week! David is an unbelievable drummer and teaches 4-limb coordination in a way that just clicks.",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop",
+    review: "Playing drums at 88 Keys is the highlight of my week! The instructors are unbelievable drummers and teach 4-limb coordination in a way that just clicks.",
   },
   {
-    name: "Natasha Roy",
-    duration: "Parent of Leo (9 Yrs)",
+    name: "Neha Roy",
+    duration: "Parent of Kabir (9 Yrs)",
     stars: 5,
     review: "My 9-year-old son started drum lessons 6 months ago. His rhythm, confidence, and focus have soared! Highest recommendation for 88 Keys.",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop",
+  },
+  {
+    name: "Siddharth Joshi",
+    duration: "Drum Student • 8 Months",
+    stars: 5,
+    review: "Learning polyrhythms and double-bass drumming on acoustic Yamaha kits here has been an incredible experience. World-class studio!",
   },
 ];
 
@@ -998,18 +1002,11 @@ export default function DrumsClient() {
                   <Star key={i} className="w-4 h-4 fill-[#B8863B] text-[#B8863B]" />
                 ))}
               </div>
-              <div className="flex items-center justify-center gap-3">
-                <img
-                  src={TESTIMONIALS[activeTestimonialIdx].image}
-                  alt={TESTIMONIALS[activeTestimonialIdx].name}
-                  className="w-11 h-11 rounded-full object-cover border-2 border-[#17140F]/10 grayscale"
-                />
-                <div className="text-left">
-                  <p className="font-bold text-sm text-[#17140F]">{TESTIMONIALS[activeTestimonialIdx].name}</p>
-                  <p className="text-[10px] font-mono text-[#4A4335] uppercase tracking-wide">
-                    {TESTIMONIALS[activeTestimonialIdx].duration}
-                  </p>
-                </div>
+              <div className="text-center">
+                <p className="font-bold text-base sm:text-lg text-[#17140F]">{TESTIMONIALS[activeTestimonialIdx].name}</p>
+                <p className="text-xs font-mono text-[#4A4335] uppercase tracking-wider mt-1">
+                  {TESTIMONIALS[activeTestimonialIdx].duration}
+                </p>
               </div>
             </motion.div>
           </AnimatePresence>

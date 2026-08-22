@@ -43,7 +43,6 @@ interface Testimonial {
   name: string;
   role: string;
   course: string;
-  image: string;
   stars: number;
   review: string;
 }
@@ -207,7 +206,6 @@ const TESTIMONIALS: Testimonial[] = [
     name: "Ananya Sharma",
     role: "Piano Student",
     course: "Piano Mastery (Grade 5)",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop",
     stars: 5,
     review:
       "88 Keys completely transformed how I approach music. The teachers don't just teach notes; they teach emotion and expression. Performing on stage at the annual concert was a dream come true!",
@@ -217,7 +215,6 @@ const TESTIMONIALS: Testimonial[] = [
     name: "Rohan Kapoor",
     role: "Guitar Enthusiast",
     course: "Electric Guitar & Solos",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop",
     stars: 5,
     review:
       "The small batch size meant my instructor gave me personalized feedback every single week. I went from struggling with basic chords to playing complex solos in 6 months!",
@@ -227,17 +224,15 @@ const TESTIMONIALS: Testimonial[] = [
     name: "Priya Nair",
     role: "Parent of Drum Student",
     course: "Kids Drum & Percussion",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop",
     stars: 5,
     review:
       "My 10-year-old son looks forward to his drum classes every Saturday! The faculty is patient, inspiring, and the studio facilities are world-class.",
   },
   {
     id: 4,
-    name: "David Chen",
+    name: "Aditya Verma",
     role: "Adult Learner",
     course: "Synth & Modern Keyboard",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop",
     stars: 5,
     review:
       "As a software engineer learning music late in life, 88 Keys offered the perfect mix of structured theory and practical jamming. Highest quality academy in town!",
@@ -752,18 +747,11 @@ export default function Home() {
                   <Star key={i} className="w-4 h-4 fill-[#B8863B] text-[#B8863B]" />
                 ))}
               </div>
-              <div className="flex items-center justify-center gap-3">
-                <img
-                  src={TESTIMONIALS[activeTestimonialIdx].image}
-                  alt={TESTIMONIALS[activeTestimonialIdx].name}
-                  className="w-11 h-11 rounded-full object-cover border-2 border-[#17140F]/10 grayscale"
-                />
-                <div className="text-left">
-                  <p className="font-bold text-sm text-[#17140F]">{TESTIMONIALS[activeTestimonialIdx].name}</p>
-                  <p className="text-[10px] font-mono text-[#4A4335] uppercase tracking-wide">
-                    {TESTIMONIALS[activeTestimonialIdx].course}
-                  </p>
-                </div>
+              <div className="text-center">
+                <p className="font-bold text-base sm:text-lg text-[#17140F]">{TESTIMONIALS[activeTestimonialIdx].name}</p>
+                <p className="text-xs font-mono text-[#4A4335] uppercase tracking-wider mt-1">
+                  {TESTIMONIALS[activeTestimonialIdx].course}
+                </p>
               </div>
             </motion.div>
           </AnimatePresence>
