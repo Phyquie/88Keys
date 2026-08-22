@@ -83,44 +83,48 @@ export default function BlogsClient() {
                   className="group relative flex flex-col bg-[#F7F2E7] border border-[#17140F]/10 hover:border-[#B8863B]/40 p-6 sm:p-8 transition-all duration-300 hover:shadow-xl rounded-sm"
                 >
                   {/* Visual Cover */}
-                  <div
-                    className="w-full h-48 sm:h-64 rounded-sm mb-6 flex items-center justify-center text-white"
-                    style={{
-                      background: coverBg 
-                        ? (coverBg.startsWith("linear-gradient") ? coverBg : `url(${coverBg}) center/cover no-repeat`)
-                        : "linear-gradient(135deg, #17140F 0%, #B8863B 100%)",
-                    }}
-                  >
-                    <span className="font-display text-2xl font-semibold tracking-wider opacity-20">88 KEYS</span>
-                  </div>
-
-                  {/* Metadata */}
-                  <div className="flex items-center gap-4 text-xs font-mono font-medium text-[#B8863B] mb-3">
-                    <span className="flex items-center gap-1">
-                      <Calendar className="w-3.5 h-3.5" />
-                      {post.date}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <User className="w-3.5 h-3.5" />
-                      {post.author}
-                    </span>
-                  </div>
-
-                  {/* Content */}
-                  <h2 className="font-display text-2xl font-semibold text-[#17140F] group-hover:text-[#B8863B] transition-colors mb-3 line-clamp-2">
-                    {post.title}
-                  </h2>
-                  <p className="text-[#4A4335] text-sm leading-relaxed mb-6 flex-grow line-clamp-3">
-                    {post.excerpt}
-                  </p>
-
-                  {/* Read More Link */}
                   <Link
                     href={`/blog/${getBlogSlug(post.title, post.id)}`}
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-[#17140F] hover:text-[#B8863B] transition-colors group-hover:translate-x-1 duration-300"
                   >
-                    <span>Read Full Article</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <div
+                      className="w-full h-48 sm:h-64 rounded-sm mb-6 flex items-center justify-center text-white"
+                      style={{
+                        background: coverBg
+                          ? (coverBg.startsWith("linear-gradient") ? coverBg : `url(${coverBg}) center/cover no-repeat`)
+                          : "linear-gradient(135deg, #17140F 0%, #B8863B 100%)",
+                      }}
+                    >
+                      <span className="font-display text-2xl font-semibold tracking-wider opacity-20">88 KEYS</span>
+                    </div>
+
+                    {/* Metadata */}
+                    <div className="flex items-center gap-4 text-xs font-mono font-medium text-[#B8863B] mb-3">
+                      <span className="flex items-center gap-1">
+                        <Calendar className="w-3.5 h-3.5" />
+                        {post.date}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <User className="w-3.5 h-3.5" />
+                        {post.author}
+                      </span>
+                    </div>
+
+                    {/* Content */}
+                    <h2 className="font-display text-2xl font-semibold text-[#17140F] group-hover:text-[#B8863B] transition-colors mb-3 line-clamp-2">
+                      {post.title}
+                    </h2>
+                    <p className="text-[#4A4335] text-sm leading-relaxed mb-6 flex-grow line-clamp-3">
+                      {post.excerpt}
+                    </p>
+
+                    {/* Read More Link */}
+                    <Link
+                      href={`/blog/${getBlogSlug(post.title, post.id)}`}
+                      className="inline-flex items-center gap-2 text-sm font-semibold text-[#17140F] hover:text-[#B8863B] transition-colors group-hover:translate-x-1 duration-300"
+                    >
+                      <span>Read Full Article</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
                   </Link>
                 </article>
               );

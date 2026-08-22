@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   description:
     "Explore photos and videos of our student concerts, studio practice rooms, acoustic grand pianos, and annual music showcases at 88 Keys.",
   keywords: ["Music Gallery", "Performance Photos", "Student Concerts", "Music Studio Rehearsal"],
+  alternates: {
+    canonical: "/gallery",
+  },
 };
 
 export default function GalleryPage() {

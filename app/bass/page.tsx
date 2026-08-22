@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   description:
     "Master slap bass, funk grooves, walking basslines, and lock timing with drums alongside professional session bassists. Book your consultation today!",
   keywords: ["Bass Guitar Lessons", "Slap Bass", "Funk Bass", "Groove Bass", "Session Bass Classes"],
+  alternates: {
+    canonical: "/bass",
+  },
 };
 
 export default function BassPage() {

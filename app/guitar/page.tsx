@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   description:
     "Learn acoustic fingerstyle, electric rock solos, blues chords, and songwriting with professional certified educators. Book a consultation or enquiry today!",
   keywords: ["Guitar Lessons", "Acoustic Guitar", "Electric Guitar", "Fingerstyle Guitar", "Rockschool Prep"],
+  alternates: {
+    canonical: "/guitar",
+  },
 };
 
 export default function GuitarPage() {

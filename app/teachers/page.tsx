@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   description:
     "Learn from certified music mentors and conservatory graduates specializing in Piano, Guitar, Drums, Bass, Vocals, and Dance. Meet the experts at 88 Keys!",
   keywords: ["Music Teachers", "Piano Instructor", "Guitar Teacher", "Drum Tutor", "Certified Music Faculty"],
+  alternates: {
+    canonical: "/teachers",
+  },
 };
 
 export default function TeachersPage() {

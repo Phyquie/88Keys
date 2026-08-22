@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   description:
     "Have questions about lessons, schedules, fees, or certifications? Get in touch with our team or schedule a studio visit. We reply within one business day.",
   keywords: ["Contact Music Studio", "Book Consultation", "Enquire Music Lessons", "Studio Location"],
+  alternates: {
+    canonical: "/contact",
+  },
 };
 
 export default function ContactPage() {

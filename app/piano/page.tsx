@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   description:
     "Learn classical concert piano, jazz improvisation, keyboard, and ABRSM/Trinity exam prep from elite certified pianists. Schedule a consultation today!",
   keywords: ["Piano Lessons", "Classical Piano", "Jazz Piano", "Keyboard Classes", "ABRSM Prep"],
+  alternates: {
+    canonical: "/piano",
+  },
 };
 
 export default function PianoPage() {
