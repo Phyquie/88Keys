@@ -34,7 +34,6 @@ const FOUNDER = {
     "With nearly 20 years of experience as a Western music educator, Daniel Massey has worked extensively in classroom music, choirs, bands, and performance ensembles. A pianist by training, he has undertaken advanced musical training and professional development, including the IB Diploma Programme (IBDP) Music and Cambridge Music programmes. He is committed to nurturing confident, creative, and expressive young musicians through engaging and student-centred learning, while fostering a lifelong appreciation for music.",
   achievements: [
     "Founded 88 Keys Music Studio in 2024",
-    "Conducted over 100+ International Symphony Recitals", ,
   ],
   image: "/founder/DanielMassey.jpeg",
 };
@@ -310,7 +309,7 @@ export default function TeachersClient() {
                 >
                   <div>
                     {/* Photo Frame */}
-                    <div className="relative h-64 overflow-hidden">
+                    <div className="relative h-96 overflow-hidden">
                       <img
                         src={teacher.image}
                         alt={teacher.name}
